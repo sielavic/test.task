@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Добавить проект к разработчику</title>
+</head>
+<body>
+<h1>Добавить проект к разработчику</h1>
+
+<form action="{{ path('add_project_to_developer', { id: developer.id, projectId: project.id }) }}" method="POST">
+    <input type="submit" value="Добавить проект">
+</form>
+
+<a href="{{ path('developer_list') }}">Назад к списку разработчиков</a>
+</body>
+</html>
