@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="example-wrapper row" style="text-align: center;">
+        <h2>Закрыть проект</h2>
+
+        {% if not project is null  %}
+            <a href="{{ path('close_project', { id: project.id }) }}" onclick="return confirm('¿Вы уверены, что хотите закрыть проект?')" class="btn-delete" style="text-decoration: none;">Закрыть проект</a>
+        {% endif %}
+
+    </div>
+{% endblock %}

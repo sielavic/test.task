@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+    <div class="example-wrapper row" style="text-align: center;">
+            <h2>Нанять сотрудника</h2>
+
+
+        {{ form_start(form_developer) }}
+        {{ form_widget(form_developer) }}
+        {{ form_end(form_developer) }}
+
+    </div>
+{% endblock %}

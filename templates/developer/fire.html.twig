@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <div class="example-wrapper row" style="text-align: center;">
+            <h2>Уволить сотрудника</h2>
+
+        {% if not developer is null  %}
+            <a href="{{ path('fire_developer', { id: developer.id }) }}" onclick="return confirm('¿Вы уверены, что хотите уволить сотрудника?')" class="btn-delete" style="text-decoration: none;">Уволить</a>
+        {% endif %}
+
+    </div>
+{% endblock %}

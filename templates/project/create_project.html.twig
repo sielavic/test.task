@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+    <div class="example-wrapper row" style="text-align: center;">
+        <h2>Создать проект</h2>
+
+
+        {{ form_start(form_create_project) }}
+        {{ form_widget(form_create_project) }}
+        {{ form_end(form_create_project) }}
+
+    </div>
+{% endblock %}
