@@ -1,0 +1,49 @@
+-- Количество проектов
+SELECT COUNT(*) FROM projects;
+
+-- Количество сотрудников
+SELECT COUNT(*) FROM developers;
+
+-- Максимальное и минимальное количество сотрудников в проектах
+SELECT
+    MAX(developer_count) AS максимальное_количество_разработчиков,
+    MIN(developer_count) AS минимальное_количество_разработчиков
+FROM (
+    SELECT
+        pd.project_id,
+        COUNT(pd.developer_id) AS developer_count
+    FROM
+        developers_projects pd
+    GROUP BY
+        pd.project_id
+) AS project_counts;
+
+-- Максимальное и минимальное количество сотрудников в проектах c показом проектов
+WITH developer_counts AS (
+    SELECT
+        p.id AS project_id,
+        p.title AS project_name,
+        COUNT(pd.developer_id) AS developer_count
+    FROM
+        projects p
+    LEFT JOIN
+        developers_projects pd ON p.id = pd.project_id
+    GROUP BY
+        p.id, p.title
+),
+max_min_counts AS (
+    SELECT
+        MAX(developer_count) AS max_developers,
+        MIN(developer_count) AS min_developers
+    FROM
+        developer_counts
+)
+SELECT
+    dc.project_name,
+    dc.developer_count
+FROM
+    developer_counts dc
+JOIN
+    max_min_counts mm ON dc.developer_count = mm.max_developers OR dc.developer_count = mm.min_developers
+ORDER BY
+    dc.developer_count;
