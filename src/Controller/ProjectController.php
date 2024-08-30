@@ -31,10 +31,14 @@ class ProjectController extends AbstractController
     public function index($id, Request $request, ManagerRegistry $doctrine): Response
     {
 
-        $project_repo = $doctrine->getRepository(Project::Class);
+        $projectRepo = $doctrine->getRepository(Project::Class);
 
         /** @var Project $project */
-        $project = $project_repo->find($id);
+        $project = $projectRepo->find($id);
+
+        if (!$project) {
+            return new Response('Проект не найден', Response::HTTP_NOT_FOUND);
+        }
         $description = $project->getTitle();
         $developers = $project->getDevelopers();
 
@@ -64,8 +68,8 @@ class ProjectController extends AbstractController
 
         $project = $doctrine->getRepository(Project::class)->find($projectId);
 
-        if (!$project) {
-            throw $this->createNotFoundException('Пользователь не найден');
+        if (!$project || $user) {
+            throw $this->createNotFoundException('Пользователь или проект не найден');
         }
         $description = $project->getTitle();
         $developers = $project->getDevelopers();

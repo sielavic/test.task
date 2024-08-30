@@ -49,10 +49,16 @@ class DeveloperController extends AbstractController
     public function hireDeveloper($projectId, ManagerRegistry $doctrine, Request $request): Response
     {
 
-        $em = $doctrine->getManager();
 
         $developer = new Developer();
-        $project_repo = $doctrine->getRepository(Project::Class);
+        $projectRepo = $doctrine->getRepository(Project::Class);
+
+        /** @var Project $project */
+        $project = $projectRepo->find($projectId);
+
+        if (!$project) {
+            return new Response('Проект не найден', Response::HTTP_NOT_FOUND);
+        }
 
 
         $form = $this->createForm(DeveloperType::class, $developer);
@@ -61,12 +67,9 @@ class DeveloperController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Project $project */
-            $project = $project_repo->find($projectId);
+            $project = $projectRepo->find($projectId);
             $developer->addProject($project);
-            $project_repo = $doctrine->getRepository(Project::Class);
 
-            /** @var Project $project */
-            $project = $project_repo->find($projectId);
             $developer->addProject($project);
             $description = $project->getTitle();
             $developers = $project->getDevelopers();
